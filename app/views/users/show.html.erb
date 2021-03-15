@@ -1,0 +1,72 @@
+<p id='notice'><%= notice %></p>
+
+<p>
+  <strong>Username:</strong>
+  <%= @user.username %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+
+<p>
+  <strong>My Posts:</strong><br>
+  <% @user.posts.each do |post| %>
+  <%= post.description %><br>
+  <% end %>
+</p>
+
+<p>
+  <strong>News Feed:</strong><br>
+  <% @user.follows.each do |person| %>
+    <strong>Username:</strong>
+    <%= person.username %><br>
+    <strong>Posts:</strong><br>
+    <% person.posts.each do |post| %>
+      <%= post.description %><br>
+    <% end %>
+  <% end %>
+</p>
+
+<p>
+  <% if @unfollowed_usernames.present? %>
+    <strong>People you may know:</strong><br>
+    <%= form_with(model: @user) do |form| %>
+      <div class='field'>
+        <%= form.label :usernames %>
+        <%= form.select :follow_username, @unfollowed_usernames %>
+      </div>
+
+      <div class='actions'>
+        <%= form.submit %>
+      </div>
+    <% end %>
+  <% end %>
+</p>
+
+<p>
+  <strong>My Followers:</strong><br>
+  <br>
+  <% @user.followers.each do |person| %>
+    <strong>Username:</strong>
+    <%= person.username %><br>
+  <% end %>
+</p>
+
+<p>
+  <strong>Create new post:</strong><br>
+  <%= form_with(model: @user) do |form| %>
+    <div class='field'>
+      <%= form.label :post %>
+      <%= form.text_field :post_description %>
+    </div>
+
+    <div class='actions'>
+      <%= form.submit %>
+    </div>
+  <% end %>
+</p>
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>
